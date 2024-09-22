@@ -17,6 +17,7 @@ int main() {
   scanf("%d", &n);
   printf("Text: ");
   scanf("%s", buff);
+
   int og_length = strlen(buff);
   int new_length = og_length * (n + 1);
   char *ent_phrase = malloc(new_length*sizeof(char)+ 1); //+1 for null terminator
@@ -34,7 +35,7 @@ int main() {
 	   }
 	}
 
-  //ent_phrase[k]= '\0';
+  ent_phrase[k]= '\0';
   printf("%s\n", ent_phrase);
   free(ent_phrase);
   return 0;
