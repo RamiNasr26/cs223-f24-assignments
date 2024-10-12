@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 
     printf("Reading %s with width %d and height %d\n", argv[1], width, height);
 
-    int max_chars = (width * height * 3) / 8; // 3 colors per pixel, 8 bits per character
+    int max_chars = (width * height * 3) / 8;
     printf("Max number of characters that can be stored: %d\n", max_chars);
 
     char message[256];
@@ -39,34 +39,30 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    
     int char_index = 0;
     int bit_index = 0;
     for (int i = 0; i < width * height; i++) {
         if (char_index >= message_length) break;
 
-        unsigned char bits[3];
-        bits[0] = (message[char_index] >> (7 - bit_index)) & 1; 
-        pixels[i].red = (pixels[i].red & 0xFE) | bits[0];        
+        pixels[i].red &= 0xFE;
+        pixels[i].green &= 0xFE;
+        pixels[i].blue &= 0xFE;
 
+        pixels[i].red |= (message[char_index] >> (7 - bit_index)) & 1;
         if (++bit_index == 8) {
             bit_index = 0;
             char_index++;
             if (char_index >= message_length) break;
         }
 
-        bits[1] = (message[char_index] >> (7 - bit_index)) & 1; 
-        pixels[i].green = (pixels[i].green & 0xFE) | bits[1];   
-
+        pixels[i].green |= (message[char_index] >> (7 - bit_index)) & 1;
         if (++bit_index == 8) {
             bit_index = 0;
             char_index++;
             if (char_index >= message_length) break;
         }
 
-        bits[2] = (message[char_index] >> (7 - bit_index)) & 1; 
-        pixels[i].blue = (pixels[i].blue & 0xFE) | bits[2];     
-
+        pixels[i].blue |= (message[char_index] >> (7 - bit_index)) & 1;
         if (++bit_index == 8) {
             bit_index = 0;
             char_index++;
@@ -74,11 +70,19 @@ int main(int argc, char** argv) {
     }
 
     char output_filename[256];
-    snprintf(output_filename, sizeof(output_filename), "%s-encoded.ppm", argv[1]);
+    char* dot_position = strrchr(argv[1], '.');
+    if (dot_position != NULL) {
+        size_t basename_length = dot_position - argv[1];
+        snprintf(output_filename, basename_length + 9, "%.*s-encoded", (int)basename_length, argv[1]);
+        strcat(output_filename, dot_position);
+    } else {
+        snprintf(output_filename, sizeof(output_filename), "%s-encoded.ppm", argv[1]);
+    }
+
     write_ppm(output_filename, pixels, width, height);
     printf("Message encoded and written to %s\n", output_filename);
 
-    free_ppm(pixels); 
+    free_ppm(pixels);
     return 0;
 }
 
