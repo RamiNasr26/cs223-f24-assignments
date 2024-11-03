@@ -17,4 +17,11 @@ Assignments for CS223 Fall 2024
 
 [Assignment 8: Trust the process](https://brynmawr-cs223-f24.github.io/website/assts/asst08.html)
 
-[Assignment 9: Mandelthreads](https://brynmawr-cs223-f24.github.io/website/assts/asst08.html)
+[Assignment 9: Mandelthreads](https://brynmawr-cs223-f24.github.io/website/assts/asst09.html)
+
+[Assignment 10: Buddhabrot](https://brynmawr-cs223-f24.github.io/website/assts/asst10.html)
+
+[Assignment 11: Where others fear to thread](https://brynmawr-cs223-f24.github.io/website/assts/asst11.html)
+
+[Assignment 12: Hold onto your memories](https://brynmawr-cs223-f24.github.io/website/assts/asst12.html)
+

@@ -31,9 +31,9 @@ char* get_prompt() {
         strcpy(cwd, "???");
     }
 
-    snprintf(prompt, sizeof(prompt), "%s%s%s <3 -----> ", 
+    snprintf(prompt, sizeof(prompt), "%s%s%s :) -----> ",
              colors[color_index], cwd, colors[6]);
-    
+
     color_index = (color_index + 1) % RAINBOW_COLORS;
 
     return prompt;
@@ -51,7 +51,7 @@ char** split_command(char* line, int* arg_count) {
         token = strtok(NULL, " \t\n");
     }
     args[*arg_count] = NULL;
-    
+
     return args;
 }
 
@@ -68,12 +68,12 @@ int main() {
     int status, arg_count;
     pid_t pid;
 
-    printf("\033[35m<3 Rainbow Shell <3\033[0m\n");
+    printf("\033[35m :) Smile (: \033[0m\n");
     printf("------------------\n\n");
 
     while (1) {
         line = readline(get_prompt());
-        
+
         if (line == NULL) {
             printf("\nGoodbye!\n");
             break;
@@ -95,7 +95,7 @@ int main() {
         }
 
         pid = fork();
-        
+
         if (pid == 0) {
             execvp(args[0], args);
             fprintf(stderr, "Error: %s: %s\n", args[0], strerror(errno));
@@ -114,7 +114,10 @@ int main() {
     }
 
     clear_history();
-    
+
     return 0;
 }
+
+
+
 
