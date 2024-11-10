@@ -18,13 +18,11 @@ struct ppm_pixel* read_ppm(const char* filename, int* w, int* h) {
     return NULL;
   }
 
-  // Read width, height, and maximum color value
   fscanf(fp, "%d %d", w, h);
   int max_color;
   fscanf(fp, "%d", &max_color);
   fgetc(fp); // Consume the newline after max_color
 
-  // Allocate memory for the pixel data
   struct ppm_pixel* pixels = (struct ppm_pixel*)malloc((*w) * (*h) * sizeof(struct ppm_pixel));
   if (!pixels) {
     printf("Error: unable to allocate memory\n");
@@ -32,7 +30,6 @@ struct ppm_pixel* read_ppm(const char* filename, int* w, int* h) {
     return NULL;
   }
 
-  // Read pixel data
   size_t read = fread(pixels, sizeof(struct ppm_pixel), (*w) * (*h), fp);
   if (read != (*w) * (*h)) {
     printf("Error: unexpected end of file\n");
