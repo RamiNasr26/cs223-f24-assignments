@@ -25,4 +25,3 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
 void write_ppm_2d(const char* filename, struct ppm_pixel** pxs, int w, int h) {
   printf("write_ppm_2d is currently unimplemented.\n");
 }
-
