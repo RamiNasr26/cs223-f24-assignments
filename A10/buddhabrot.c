@@ -196,19 +196,18 @@ int main(int argc, char* argv[]) {
     char filename[100];
     strftime(filename, sizeof(filename), "buddhabrot-%dx%d-%Y%m%d%H%M%S.ppm", time_info);
 
-    write_ppm(filename, image, size, size);
-    printf("Writing file: %s\n", filename);
-    for (int i = 0; i < size; i++) {
-	    free(membership[i]);
+    write_ppm(filename, image, size, size); 
+    printf("Writing file: %s\n", filename); 
+    // Cleanup
+    for (int i = 0; i < size; i++) { 
+	    free(membership[i]); 
 	    free(visited_counts[i]);
-    }
-    free(membership);
-    free(visited_counts);
-    free(image);
-    free(threads);
-    free(threadData);
-    pthread_mutex_destroy(&mutex);
-    pthread_barrier_destroy(&barrier);
-
-    return 0;
+    } free(membership); 
+    free(visited_counts); 
+    free(image); 
+    free(threads); 
+    free(threadData); 
+    pthread_mutex_destroy(&mutex); 
+    pthread_barrier_destroy(&barrier); 
+    return 0; 
 }
