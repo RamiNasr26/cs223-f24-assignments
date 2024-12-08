@@ -17,6 +17,71 @@ struct chunk {
 };
 
 void memstats(struct chunk* freelist, void* buffer[], int len) {
+    int total_blocks = 0;
+    int free_blocks = 0;
+    int used_blocks = 0;
+    int total_memory_allocated = 0;
+    int total_memory_free = 0;
+    int total_memory_used = 0;
+
+    struct chunk* current = freelist;
+    while (current != NULL) {
+        total_blocks++;
+        total_memory_allocated += current->size;
+        
+        if (current->used == 0) {
+            free_blocks++;
+            total_memory_free += current->size;
+        } else {
+            used_blocks++;
+            total_memory_used += current->used;
+        }
+        
+        current = current->next;
+    }
+
+    // Count used blocks in the buffer
+    for (int i = 0; i < len; i++) {
+        if (buffer[i] != NULL) {
+            // Get the chunk header
+            struct chunk* chunk = ((struct chunk*)buffer[i]) - 1;
+            
+            // If this block is not in the free list, count it
+            int found_in_freelist = 0;
+            current = freelist;
+            while (current != NULL) {
+                if (current == chunk) {
+                    found_in_freelist = 1;
+                    break;
+                }
+                current = current->next;
+            }
+            
+            if (!found_in_freelist) {
+                total_blocks++;
+                total_memory_allocated += chunk->size;
+                
+                if (chunk->used > 0) {
+                    used_blocks++;
+                    total_memory_used += chunk->used;
+                } else {
+                    free_blocks++;
+                    total_memory_free += chunk->size;
+                }
+            }
+        }
+    }
+
+    // Calculate underutilized memory percentage
+    double underutilized_percent = total_memory_allocated > 0 
+        ? (double)(total_memory_allocated - total_memory_used) / total_memory_allocated 
+        : 0.0;
+
+    printf("Total blocks: %d Free blocks: %d Used blocks: %d\n", 
+           total_blocks, free_blocks, used_blocks);
+    printf("Total memory allocated: %d Free memory: %d Used memory: %d\n", 
+           total_memory_allocated, total_memory_free, total_memory_used);
+    printf("Underutilized memory: %.2f\n", underutilized_percent);
 }
 
 int main ( int argc, char* argv[]) {
